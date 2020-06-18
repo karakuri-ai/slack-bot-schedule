@@ -1,13 +1,23 @@
-import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
-const slackToken = 'R64aI0bkI7NZbEWOoO6dZI6S';
+const postUrl = 'https://hooks.slack.com/services/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'
+const username = 'botbot'
+const icon = ':hatching_chick:'
+const message = 'testだよ'
 
 function test() {
-  const slackApp = SlackApp.create(slackToken);
-  const channelId = "#times_hori";
-  // 投稿するメッセージ
-  const message = "TestMessage";
-　//
-  const options = {
+  const json =
+  {
+     "username" : username,
+     "icon_emoji": icon,
+     "text" : message
   }
-  slackApp.postMessage(channelId, message, options);
+  const payload = JSON.stringify(json)
+
+  const options =
+  {
+    "method" : "post",
+    "contentType" : "application/json",
+    "payload" : payload
+  }
+
+  UrlFetchApp.fetch(postUrl, options)
 }
