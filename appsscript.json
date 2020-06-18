@@ -1,6 +1,13 @@
 {
   "timeZone": "America/New_York",
   "dependencies": {
+    "libraries": [
+      {
+        "userSymbol": "SlackApp",
+        "libraryId": "M3W5Ut3Q39AaIwLquryEPMwV62A3znfOO",
+        "version": "22"
+      }
+    ]
   },
   "exceptionLogging": "STACKDRIVER",
   "runtimeVersion": "V8"
