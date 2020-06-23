@@ -13,10 +13,10 @@ function doPost(e) {
         "contentType": "application/json",
         "payload": payload
     };
+    registerSchedule({ people, date: json.message.blocks[0].text.text, title: 'test' });
     UrlFetchApp.fetch(responseUrl, options);
   }
 }
-
       
 function postToSlack() {
   const people = '<@U010SEMAGHH>' // @Naoto Tanaka
@@ -89,4 +89,36 @@ function post(jsonStr) {
         "payload": payload
     };
     UrlFetchApp.fetch(postUrl, options);
+}
+
+function createEvents({ title, id, start, end, description }) {
+  const calendar = CalendarApp.getCalendarById(id);
+  const startTime = new Date(start);
+  const endTime = new Date(end);
+  const option = {
+    description,
+  }
+  
+  calendar.createEvent(title, startTime, endTime, option);
+}
+
+function registerSchedule({ people, date, title } : { people: string, date: string, title: string }) {
+  const persons = people.split(',');
+  persons.forEach((person) => {
+    const gmail = convertSlackIDtoGmail(person);
+    Logger.log(gmail)
+  })
+}
+
+function convertSlackIDtoGmail(slackID: string) {
+  const searchID = slackID.replace(/<(.*)?>/, '$1');
+  const sheet = SpreadsheetApp.getActiveSheet()
+  const data  = sheet.getDataRange().getValues();
+  const item = data.find((row) => {
+    if (row[2] === searchID) {
+      return true
+    }
+    return false
+  })
+  return item[2]
 }
