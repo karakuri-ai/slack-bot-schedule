@@ -111,7 +111,7 @@ function registerSchedule({ people, date, title } : { people: string, date: stri
 }
 
 function convertSlackIDtoGmail(slackID: string) {
-  const searchID = slackID.replace(/<(.*)?>/, '$1');
+  const searchID = slackID.replace(/<\@(.*)?>/, '$1');
   const sheet = SpreadsheetApp.getActiveSheet()
   const data  = sheet.getDataRange().getValues();
   const item = data.find((row) => {
@@ -120,5 +120,5 @@ function convertSlackIDtoGmail(slackID: string) {
     }
     return false
   })
-  return item[2]
+  return item[1]
 }
