@@ -21,9 +21,32 @@ function doPost(e) {
 function postToSlack() {
   const people = '<@U010SEMAGHH>' // @Naoto Tanaka
   const message = createHeadMessage(people)
-  const suggest1 = createSuggest("11/03(水) 11:00 ~ 12:00", people)
-  const suggest2 = createSuggest("11/04(木) 12:00 ~ 13:00", people)
-  const suggest3 = createSuggest("11/05(金) 15:00 ~ 16:00", people)
+  const title = '打ち合わせ'
+  const startTime = new Date().toString();
+  const endTime = new Date().toString();
+  const description = '打ち合わせURLはこちらです。zoomURL: https://zoom.us/**/**';
+
+  const suggest1 = createSuggest("11/03(水) 11:00 ~ 12:00", {
+    title,
+    people,
+    startTime,
+    endTime,
+    description,
+  })
+  const suggest2 = createSuggest("11/04(木) 12:00 ~ 13:00", {
+    title,
+    people,
+    startTime,
+    endTime,
+    description,
+  })
+  const suggest3 = createSuggest("11/05(金) 15:00 ~ 16:00", {
+    title,
+    people,
+    startTime,
+    endTime,
+    description,
+  })
   post(message)
   post(suggest1)
   post(suggest2)
@@ -106,7 +129,7 @@ function registerSchedule({ people, date, title } : { people: string, date: stri
   const persons = people.split(',');
   persons.forEach((person) => {
     const gmail = convertSlackIDtoGmail(person);
-    Logger.log(gmail)
+    createEvents
   })
 }
 
@@ -121,4 +144,9 @@ function convertSlackIDtoGmail(slackID: string) {
     return false
   })
   return item[1]
+}
+
+function test() {
+  const gmail = convertSlackIDtoGmail('<@U010U6744NN>');
+  createEvents({ id: gmail, title: 'テスト', description: 'ほげほげ', start: '2020/06/26 15:00', end: '2020/06/26 16:00' });
 }
