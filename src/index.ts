@@ -108,7 +108,7 @@ function createHeadMessage(people) {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": `${people}\nみんなが空いている日を3つピックアップしたよ。\n参加者は可能な日にリアクションをつけてね。`
+          "text": `${people}\nみんなが空いている日を5つピックアップしたよ。\n参加者は可能な日にリアクションをつけてね。`
         }
       },
       {

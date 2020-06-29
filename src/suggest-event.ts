@@ -1,4 +1,5 @@
 // Compiled using ts2gas 3.6.2 (TypeScript 3.9.5)
+var LOG_SHEET = 'ログ';
 var PERIOD = 30;
 var OPENING_HOURS = 8;
 var CLOSING_HOURS = 20;
@@ -11,7 +12,7 @@ function getSuggestedEvents(title, people, timeSpan) {
     // [{ start: '2020/06/25 15:00' end: '2020/06/27 16:00'}]
     // まだモックです
     if (!title) {
-        title = 'キックオフMTG'
+        title = 'テスト'
     }
     if (!people) {
         people = ['<@U010U6744NN>', '<@U010SEMAGHH>']
@@ -110,7 +111,9 @@ function getCommonAvailableTime(people, timeSpan) {
             if (startTimes[i+1] - endTimes[i] >= timeSpan * 60 * 1000) {
                 var startTimeString = new Date(startTimes[i+1]);
                 var endTimeString = new Date(endTimes[i]);
-                availableTimes.push([endTimeString, startTimeString])
+                if (startTimeString.getDay() !== 0 && startTimeString.getDay() !== 6){
+                    availableTimes.push([endTimeString, startTimeString])
+                }
             }
         }
     }
@@ -119,7 +122,7 @@ function getCommonAvailableTime(people, timeSpan) {
 
 function getPastEvents(title) {
     if (!title) {
-        title = 'キックオフMTG'
+        title = 'テスト'
     }
     var ss = SpreadsheetApp.openById(SPREADSHHETID);
     var sheet = ss.getSheetByName(SCHEDULE_SHEET);
@@ -128,8 +131,9 @@ function getPastEvents(title) {
     var dates = [];
     var days = [];
     for(var i=0;i<sameTitleRows.length;i++) {
-        dates.push(data[sameTitleRows[i]][1].getDate());
-        days.push(data[sameTitleRows[i]][1].getDay());
+        var date = data[sameTitleRows[i]][1]
+        dates.push(date.getTime());
+        days.push(date.getDay());
     }
     return [dates, days];
 }
@@ -140,7 +144,7 @@ function findRows(sheet, value, col) {
     var lastRow = sheet.getLastRow();
     
     for(var i=0;i<lastRow;i++) {
-        if(data[i][col-1] === value) {
+        if(data[i][col-1].trim() === value) {
             Rows.push(i);
         }
     }
@@ -157,6 +161,8 @@ function scoring(availableTime, dates, days) {
         dates = pastEvents[0]
         days = pastEvents[1]
     }
+    dates = dates.sort()
+    Logger.log(dates)
     var today = new Date();
     // 曜日の回数をカウント，曜日のランキングに応じてスコア
     var delta = [];
@@ -167,7 +173,7 @@ function scoring(availableTime, dates, days) {
     var averageDelta = average(delta);
     var rank = dayRank(days);
     var dayScore = rank.indexOf(availableTime[0].getDay());
-    var dayDelta = availableTime[0].getDate() - today.getDate();
+    var dayDelta = availableTime[0].getTime() - dates[dates.length - 1];
     var dateScore = Math.floor(Math.abs(dayDelta / averageDelta - 1) * 2);
     var score = dayScore + dateScore;
     return score;
