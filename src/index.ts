@@ -1,4 +1,4 @@
-const postUrl = "https://hooks.slack.com/services/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"
+const postUrl = "https://hooks.slack.com/services/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"
 const SPREADSHHETID = '1F9Fpc5umyxRXG6QtYp3nduooWadiZG9DcPh7HqBC630'
 const ACCOUNT_SHEET = 'アカウント'
 const SCHEDULE_SHEET = 'スケジュール'
@@ -18,11 +18,8 @@ function fromForm(e) {
   // 申請フォームから投稿されたメッセージかどうかを判定する
   if (userName != "slackbot"||!text.match(/Slackbotハッカソン/))return;//投稿ユーザーがslackbotだった場合＆申請フォームという文言が入っていない場合はリターン
   const parsedText = parseForm(text);
-  const ss = SpreadsheetApp.openById(SPREADSHHETID);
-  const sheet = ss.getSheetByName(SCHEDULE_SHEET);
   const { title, description, people, timeSpan } = parsedText;
-  sheet.appendRow([title,timeSpan, people[0],people[1],people[2],people[3],people[4],people[5],people[6],description])
-  const events = getSuggestedEvents(people, timeSpan);
+  const events = getSuggestedEvents(title, people.map(person => person.replace(/\s/g, '')), parseInt(timeSpan.replace(/\s/g, ''), 10));
   postToSlack({ title, description, people: people.join(',').replace(/\s/g, ''), events });
 }
 
@@ -37,6 +34,10 @@ function fromSlack(e) {
       "contentType": "application/json",
       "payload": payload
   };
+  const ss = SpreadsheetApp.openById(SPREADSHHETID);
+  const sheet = ss.getSheetByName(SCHEDULE_SHEET);
+  const items = people.split(',');
+  sheet.appendRow([title, start, end, items[0], items[1], items[2], items[3], items[4], items[5], items[6], description]);
   registerSchedule({ people, start, end, title, description });
   UrlFetchApp.fetch(responseUrl, options);
 }
@@ -208,4 +209,12 @@ function test() {
     { start: "2020/06/27 15:00", end: '2020/06/27 16:00' }
   ]
   postToSlack({ title, description, people, events });
+}
+
+function test2() {
+  var people = '<@U010SEMAGHH>'; // @Naoto Tanaka カンマ区切り
+  var title = '打ち合わせ';
+  var description = '打ち合わせURLはこちらです。zoomURL: https://zoom.us/**/**';
+  var events = getSuggestedEvents('テスト', ['<@UPNECM85R>'], 50);
+　postToSlack({ title: title, description: description, people: people, events: events });
 }
