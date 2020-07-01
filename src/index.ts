@@ -16,7 +16,7 @@ function fromForm(e) {
   const userName = e.parameter.user_name; // 投稿したユーザーの名前を取ってくる
   const text = e.parameter.text; // 投稿されたテキストを取ってくる
   // 申請フォームから投稿されたメッセージかどうかを判定する
-  if (userName != "slackbot"||!text.match(/Slackbotハッカソン/))return;//投稿ユーザーがslackbotだった場合＆申請フォームという文言が入っていない場合はリターン
+  if (userName != "slackbot"||!text.match(/Oh_No/))return;//投稿ユーザーがslackbotだった場合＆申請フォームという文言が入っていない場合はリターン
   const parsedText = parseForm(text);
   const { title, description, people, timeSpan } = parsedText;
   const events = getSuggestedEvents(title, people.map(person => person.replace(/\s/g, '')), parseInt(timeSpan.replace(/\s/g, ''), 10));
