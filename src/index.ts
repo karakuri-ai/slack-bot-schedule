@@ -1,5 +1,5 @@
-const postUrl = "https://hooks.slack.com/services/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"
-const SPREADSHHETID = '1F9Fpc5umyxRXG6QtYp3nduooWadiZG9DcPh7HqBC630'
+const postUrl = "https://hooks.slack.com/services//*******/*******/*******/"
+const SPREADSHHETID = '*******'
 const ACCOUNT_SHEET = 'アカウント'
 const SCHEDULE_SHEET = 'スケジュール'
 const HOSTACCOUNT = '<@U010U6744NN>' // GODAI
