@@ -1,0 +1,27 @@
+{
+  "name": "karakuri-bot-schedule",
+  "version": "1.0.0",
+  "description": "Googleカレンダー調整さん",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karakuri-ai/slack-bot-schedule.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karakuri-ai/slack-bot-schedule/issues"
+  },
+  "homepage": "https://github.com/karakuri-ai/slack-bot-schedule#readme",
+  "devDependencies": {
+    "@google/clasp": "^2.3.0"
+  },
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.14",
+    "@types/moment": "^2.13.0"
+  }
+}
